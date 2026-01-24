@@ -111,126 +111,133 @@ const FaceCaptureScreen = () => {
 
   return (
     <div
-      className="screen-container"
       style={{
-        backgroundImage: "url(/images/common_bg.png)",
-        backgroundColor: "#0f172a",
+        width: "100%",
+        height: "100vh",
+        backgroundImage: "url('/images/capture-screen.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundColor: "#FDEEE4",
+        position: "relative",
       }}
     >
-      <div className="screen-content">
-        <div
-          style={{
-            position: "relative",
-            width: "708px",
-            height: "916px",
-            margin: "0 auto",
-            border: "20px solid #0EC8F0",
-            marginTop: "340px",
-
-            overflow: "hidden",
-            backgroundColor: "#000",
+      {/* Webcam Container */}
+      <div
+        style={{
+          position: "absolute",
+          width: "865px",
+          height: "1007px",
+          top: "562px",
+          left: "107.5px",
+          overflow: "hidden",
+          backgroundColor: "#000",
+        }}
+      >
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          videoConstraints={{
+            width: 865,
+            height: 1007,
+            facingMode: "user",
           }}
-        >
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            videoConstraints={{
-              width: 708,
-              height: 590,
-              facingMode: "user",
-            }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+
+        {/* Countdown Overlay */}
+        {countdown !== null && (
+          <div
             style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,0.3)",
+              zIndex: 10,
+            }}
+          >
+            <span
+              style={{
+                fontSize: "150px",
+                fontWeight: "bold",
+                color: "white",
+                textShadow: "0 4px 20px rgba(0,0,0,0.5)",
+              }}
+            >
+              {countdown}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Capture Button */}
+      {!isCapturing && !isProcessing && (
+        <button
+          onClick={startCapture}
+          style={{
+            position: "absolute",
+            bottom: "50px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateX(-50%) scale(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateX(-50%) scale(1)";
+          }}
+        >
+          <img
+            src="/images/capture-button.png"
+            alt="Capture"
+            style={{
+              height: "auto",
+              maxWidth: "400px",
             }}
           />
+        </button>
+      )}
 
-          {/* Countdown Overlay */}
-          {countdown !== null && (
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.3)",
-                zIndex: 10,
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "150px",
-                  fontWeight: "bold",
-                  color: "white",
-                  textShadow: "0 4px 20px rgba(0,0,0,0.5)",
-                }}
-              >
-                {countdown}
-              </span>
-            </div>
-          )}
+      {/* Processing Message */}
+      {isProcessing && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "100px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: "40px",
+            color: "#000",
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontWeight: "600",
+            animation: "fadeInOut 2s ease-in-out infinite",
+          }}
+        >
+          <style>
+            {`
+              @keyframes fadeInOut {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
+              }
+            `}
+          </style>
+          Processing...
         </div>
-
-        <div style={{ marginTop: "60px" }}>
-          {!isCapturing && !isProcessing && (
-            <button
-              onClick={startCapture}
-              style={{
-                width: "690px",
-                height: "202px",
-                fontSize: "80px",
-                fontWeight: "600",
-                backgroundImage: "url(/images/capturebg.png)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundColor: "transparent",
-                color: "black",
-                border: "none",
-                cursor: "pointer",
-                fontFamily: "var(--font-family)",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                transition: "all 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "scale(1)";
-              }}
-            >
-            </button>
-          )}
-
-          {isProcessing && (
-            <div
-              style={{
-                fontSize: "60px",
-                color: "white",
-                fontFamily: "var(--font-family)",
-                fontWeight: "600",
-                animation: "fadeInOut 2s ease-in-out infinite",
-              }}
-            >
-              <style>
-                {`
-                  @keyframes fadeInOut {
-                    0%, 100% { opacity: 0.3; }
-                    50% { opacity: 1; }
-                  }
-                `}
-              </style>
-              Magic happening...
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 };
