@@ -84,6 +84,17 @@ const GenderSelectionScreen = () => {
                 objectFit: "cover",
               }}
             />
+            <p
+              style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontSize: "28px",
+                color: "#000000",
+                marginTop: "10px",
+                margin: "10px 0 0 0",
+              }}
+            >
+              Male
+            </p>
           </div>
 
           {/* Female Option */}
@@ -108,6 +119,17 @@ const GenderSelectionScreen = () => {
                 objectFit: "cover",
               }}
             />
+            <p
+              style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontSize: "28px",
+                color: "#000000",
+                marginTop: "10px",
+                margin: "10px 0 0 0",
+              }}
+            >
+              Female
+            </p>
           </div>
         </div>
       </div>
