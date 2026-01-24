@@ -95,7 +95,7 @@ const WelcomeScreen = () => {
       <div style={{ marginTop: "400px" }}>
         <label
           style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontFamily: "'ITC Charter', serif",
             fontSize: "28px",
             color: "#000000",
             display: "block",
@@ -117,7 +117,7 @@ const WelcomeScreen = () => {
               width: "100%",
               padding: "20px 24px",
               fontSize: "24px",
-              fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: "'ITC Charter', serif",
               borderRadius: "0",
               border: "none",
               backgroundColor: "#FFFFFF",
@@ -150,7 +150,7 @@ const WelcomeScreen = () => {
                   style={{
                     padding: "16px 24px",
                     fontSize: "22px",
-                    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                    fontFamily: "'ITC Charter', serif",
                     color: "#000000",
                     cursor: "pointer",
                     borderBottom: "1px solid #f0f0f0",
@@ -193,7 +193,7 @@ const WelcomeScreen = () => {
                 style={{
                   color: "#dc2626",
                   fontSize: "22px",
-                  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                  fontFamily: "'ITC Charter', serif",
                   marginBottom: "16px",
                 }}
               >
@@ -202,16 +202,18 @@ const WelcomeScreen = () => {
               <button
                 onClick={handleRegister}
                 style={{
-                  padding: "14px 36px",
-                  fontSize: "20px",
+                  padding: "24px 60px",
+                  fontSize: "32px",
                   fontWeight: "600",
-                  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                  backgroundColor: "#dc2626",
+                  fontFamily: "'ITC Charter', serif",
+                  backgroundColor: "#FD5108",
                   color: "white",
                   border: "none",
-                  borderRadius: "8px",
+                  borderRadius: "0",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
+                  textTransform: "uppercase",
+                  letterSpacing: "2px",
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = "scale(1.05)";

@@ -208,7 +208,7 @@ const FaceCaptureScreen = () => {
             transform: "translateX(-50%)",
             fontSize: "40px",
             color: "#000",
-            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontFamily: "'ITC Charter', serif",
             fontWeight: "600",
             animation: "fadeInOut 2s ease-in-out infinite",
           }}

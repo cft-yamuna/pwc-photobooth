@@ -26,10 +26,6 @@ const LoadingScreen = () => {
       setStatusMessage("Preparing your transformation...");
       const supabaseService = new SupabaseService();
 
-      // We don't strictly need to update character image here as it's done in FaceCaptureScreen
-      // but it doesn't hurt to be safe.
-      // await supabaseService.updateCharacterImage(uniqueId, characterImageUrl);
-
       setStatusMessage("Sending to AI processor...");
       const faceswapService = new FaceSwapService();
 
@@ -72,104 +68,221 @@ const LoadingScreen = () => {
 
   return (
     <div
-      className="screen-container"
       style={{
-        backgroundImage: "url(/images/common_bg.png)",
-        backgroundColor: "#0f172a",
+        width: "100%",
+        height: "100vh",
+        backgroundImage: "url(/images/welcome_screen_bg.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundColor: "#FDEEE4",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "50px",
+        boxSizing: "border-box",
       }}
     >
-      <div className="screen-content">
-        <div className="flex flex-col items-center gap-xl">
-          {!hasError ? (
-            <>
-              {/* Custom Loader */}
-              <div
-                className="loader-container"
-                style={{ marginBottom: "40px" }}
-              >
-                <style>
-                  {`
-                    .loader {
-                      border: 16px solid rgba(255, 255, 255, 0.1);
-                      border-top: 16px solid #0EC8F0;
-                      border-radius: 50%;
-                      width: 120px;
-                      height: 120px;
-                      animation: spin 2s linear infinite;
-                    }
-                    @keyframes spin {
-                      0% { transform: rotate(0deg); }
-                      100% { transform: rotate(360deg); }
-                    }
-                  `}
-                </style>
-                <div className="loader"></div>
-              </div>
+      <style>
+        {`
+          /* Rotating rings animation */
+          .loader-rings {
+            position: relative;
+            width: 150px;
+            height: 150px;
+          }
 
-              <div className="text-center">
-                <style>
-                  {`
-                    @keyframes fadeInOut {
-                      0%, 100% { opacity: 0.3; }
-                      50% { opacity: 1; }
-                    }
-                  `}
-                </style>
-                <h2
-                  className="h2"
-                  style={{
-                    marginBottom: "1rem",
-                    fontFamily: "var(--font-family)",
-                    fontSize: "40px",
-                    textTransform: "uppercase",
-                    animation: "fadeInOut 2s ease-in-out infinite",
-                  }}
-                >
-                  Magic happening...
-                </h2>
-                <p
-                  className="p"
-                  style={{
-                    whiteSpace: "pre-line",
-                    maxWidth: "600px",
-                    fontSize: "24px",
-                    color: "white",
-                  }}
-                >
-                  {statusMessage}
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <div style={{ fontSize: "5rem", color: "var(--color-error)" }}>
-                ⚠️
-              </div>
-              <div className="text-center">
-                <h2
-                  className="h2"
-                  style={{ color: "var(--color-error)", marginBottom: "1rem" }}
-                >
-                  Oops! Something Went Wrong
-                </h2>
-                <p
-                  className="p"
-                  style={{ whiteSpace: "pre-line", maxWidth: "600px" }}
-                >
-                  {statusMessage}
-                </p>
-              </div>
+          .loader-rings .ring {
+            position: absolute;
+            border: 4px solid transparent;
+            border-radius: 50%;
+          }
 
-              <button
-                onClick={handleTryAgain}
-                className="btn btn-primary btn-large mt-lg"
-              >
-                Try Again
-              </button>
-            </>
-          )}
+          .loader-rings .ring:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            border-top-color: #FD5108;
+            animation: rotate1 1.5s linear infinite;
+          }
+
+          .loader-rings .ring:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 15px;
+            left: 15px;
+            border-right-color: #FD5108;
+            animation: rotate2 1.5s linear infinite;
+          }
+
+          .loader-rings .ring:nth-child(3) {
+            width: 90px;
+            height: 90px;
+            top: 30px;
+            left: 30px;
+            border-bottom-color: #FD5108;
+            animation: rotate1 1s linear infinite;
+          }
+
+          .loader-rings .ring:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            top: 45px;
+            left: 45px;
+            border-left-color: #FD5108;
+            animation: rotate2 1s linear infinite;
+          }
+
+          @keyframes rotate1 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+          @keyframes rotate2 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+          }
+
+          /* Pulsing dots */
+          .dots-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+          }
+
+          .dot {
+            width: 16px;
+            height: 16px;
+            background-color: #FD5108;
+            border-radius: 50%;
+            animation: pulse 1.4s ease-in-out infinite;
+          }
+
+          .dot:nth-child(1) { animation-delay: 0s; }
+          .dot:nth-child(2) { animation-delay: 0.2s; }
+          .dot:nth-child(3) { animation-delay: 0.4s; }
+          .dot:nth-child(4) { animation-delay: 0.6s; }
+          .dot:nth-child(5) { animation-delay: 0.8s; }
+
+          @keyframes pulse {
+            0%, 100% {
+              transform: scale(0.6);
+              opacity: 0.4;
+            }
+            50% {
+              transform: scale(1.2);
+              opacity: 1;
+            }
+          }
+
+          /* Text shimmer effect */
+          .shimmer-text {
+            background: linear-gradient(
+              90deg,
+              #000000 0%,
+              #FD5108 50%,
+              #000000 100%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 2s linear infinite;
+          }
+
+          @keyframes shimmer {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+          }
+        `}
+      </style>
+
+      {!hasError ? (
+        <div style={{ textAlign: "center" }}>
+          {/* Animated Rings Loader */}
+          <div className="loader-rings" style={{ margin: "0 auto 30px" }}>
+            <div className="ring"></div>
+            <div className="ring"></div>
+            <div className="ring"></div>
+            <div className="ring"></div>
+          </div>
+
+          {/* Pulsing Dots */}
+          <div className="dots-container" style={{ justifyContent: "center" }}>
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </div>
+
+          {/* Loading Text */}
+          <h2
+            className="shimmer-text"
+            style={{
+              fontFamily: "'ITC Charter', serif",
+              fontSize: "48px",
+              fontWeight: "700",
+              marginTop: "40px",
+            }}
+          >
+            Magic is happening...
+          </h2>
         </div>
-      </div>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              fontSize: "80px",
+              marginBottom: "20px",
+            }}
+          >
+            ⚠️
+          </div>
+          <h2
+            style={{
+              fontFamily: "'ITC Charter', serif",
+              fontSize: "40px",
+              fontWeight: "700",
+              color: "#dc2626",
+              marginBottom: "20px",
+            }}
+          >
+            Oops! Something Went Wrong
+          </h2>
+          <p
+            style={{
+              fontFamily: "'ITC Charter', serif",
+              fontSize: "24px",
+              color: "#333333",
+              whiteSpace: "pre-line",
+              maxWidth: "600px",
+              marginBottom: "30px",
+            }}
+          >
+            {statusMessage}
+          </p>
+
+          <button
+            onClick={handleTryAgain}
+            style={{
+              padding: "20px 60px",
+              fontSize: "28px",
+              fontWeight: "600",
+              fontFamily: "'ITC Charter', serif",
+              backgroundColor: "#FD5108",
+              color: "white",
+              border: "none",
+              borderRadius: "0",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              textTransform: "uppercase",
+              letterSpacing: "2px",
+            }}
+          >
+            Try Again
+          </button>
+        </div>
+      )}
     </div>
   );
 };

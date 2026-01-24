@@ -44,7 +44,7 @@ const GenderSelectionScreen = () => {
       <div style={{ marginTop: "350px" }}>
         <h2
           style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontFamily: "'ITC Charter', serif",
             fontSize: "36px",
             fontWeight: "700",
             color: "#000000",
@@ -86,7 +86,7 @@ const GenderSelectionScreen = () => {
             />
             <p
               style={{
-                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontFamily: "'ITC Charter', serif",
                 fontSize: "28px",
                 color: "#000000",
                 marginTop: "10px",
@@ -121,7 +121,7 @@ const GenderSelectionScreen = () => {
             />
             <p
               style={{
-                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontFamily: "'ITC Charter', serif",
                 fontSize: "28px",
                 color: "#000000",
                 marginTop: "10px",
