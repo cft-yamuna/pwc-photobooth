@@ -179,7 +179,7 @@ const FaceCaptureScreen = () => {
         )}
       </div>
 
-      {/* Capture Button */}
+      {/* Capture Button - Transparent clickable area over background button */}
       {!isCapturing && !isProcessing && (
         <button
           onClick={startCapture}
@@ -192,24 +192,10 @@ const FaceCaptureScreen = () => {
             border: "none",
             cursor: "pointer",
             padding: 0,
-            transition: "all 0.3s ease",
+            width: "400px",
+            height: "120px",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateX(-50%) scale(1.05)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateX(-50%) scale(1)";
-          }}
-        >
-          <img
-            src="/images/capture-button.png"
-            alt="Capture"
-            style={{
-              height: "auto",
-              maxWidth: "400px",
-            }}
-          />
-        </button>
+        />
       )}
 
       {/* Processing Message */}

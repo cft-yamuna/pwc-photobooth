@@ -1,35 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import QRCode from "qrcode";
 
 const OutputScreen = () => {
   const navigate = useNavigate();
   const { outputImageUrl, resetState } = useAppContext();
-  const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
 
   useEffect(() => {
     if (!outputImageUrl) {
       navigate("/");
       return;
     }
-
-    // Generate QR code for the output image URL
-    QRCode.toDataURL(outputImageUrl, {
-      width: 200,
-      margin: 2,
-      color: {
-        dark: "#ffffff",
-        light: "#00000000",
-      },
-    })
-      .then((url) => {
-        setQrCodeDataUrl(url);
-      })
-      .catch((err) => {
-        console.error("Error generating QR code:", err);
-      });
   }, [outputImageUrl, navigate]);
+
+  const handleRetake = () => {
+    navigate("/face-capture");
+  };
+
+  const handlePrint = () => {
+    // Open print dialog for the output image
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Photo</title>
+          <style>
+            body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+            img { max-width: 100%; max-height: 100vh; }
+          </style>
+        </head>
+        <body>
+          <img src="${outputImageUrl}" onload="window.print(); window.close();" />
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
 
   const handleStartOver = () => {
     resetState();
@@ -38,113 +44,92 @@ const OutputScreen = () => {
 
   return (
     <div
-      className="screen-container"
       style={{
-        backgroundImage: "url(/images/common_bg.png)",
-        backgroundColor: "#0f172a",
+        width: "100%",
+        height: "100vh",
+        backgroundImage: "url('/images/welcome_screen_bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundColor: "#FDEEE4",
+        position: "relative",
       }}
     >
-      <div className="screen-content">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "30px",
-            width: "100%",
-            height: "100%",
-            paddingTop: "123px",
-            marginTop: "230px",
-          }}
-        >
-
-          {/* Output Image */}
+      {/* Output Image Container */}
+      <div
+        style={{
+          position: "absolute",
+          width: "865px",
+          height: "1007px",
+          top: "562px",
+          left: "107.5px",
+          overflow: "hidden",
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        {outputImageUrl && (
           <img
             src={outputImageUrl}
-            alt="Transformed"
+            alt="Preview"
             style={{
-              width: "662px",
-              height: "1029px",
-              display: "block",
+              width: "100%",
+              height: "100%",
               objectFit: "cover",
             }}
           />
-
-          {/* QR Code and Restart Section */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: "30px",
-              marginTop: "43px",
-              marginBottom: "80px",
-              backgroundColor: "#0B2860",
-              padding: "30px 40px",
-              // borderRadius: "15px",
-            }}
-          >
-            {/* QR Code on the left */}
-            {qrCodeDataUrl && (
-              <img
-                src={qrCodeDataUrl}
-                alt="QR Code"
-                style={{
-                  width: "180px",
-                  height: "180px",
-                }}
-              />
-            )}
-
-            {/* Text and Button on the right */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: "15px",
-              }}
-            >
-              <p
-                style={{
-                  color: "white",
-                  fontSize: "36px",
-                  fontWeight: "700",
-                  fontFamily: "var(--font-family)",
-                  textTransform: "uppercase",
-                  margin: 0,
-                  letterSpacing: "2px",
-                }}
-              >
-                Scan to Download
-              </p>
-
-              {/* Restart Button */}
-              <button
-                onClick={handleStartOver}
-                style={{
-                  width: "307px",
-                  height: "90px",
-                  backgroundImage: "url(/images/restart.png)",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.transform = "scale(1.05)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.transform = "scale(1)";
-                }}
-              >
-              </button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
+
+      {/* Retake Button */}
+      <button
+        onClick={handleRetake}
+        style={{
+          position: "absolute",
+          width: "466px",
+          height: "136px",
+          top: "1688px",
+          left: "62px",
+          backgroundColor: "transparent",
+          border: "none",
+          cursor: "pointer",
+          padding: 0,
+        }}
+      >
+        <img
+          src="/images/retake.png"
+          alt="Retake"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
+        />
+      </button>
+
+      {/* Print Button */}
+      <button
+        onClick={handlePrint}
+        style={{
+          position: "absolute",
+          width: "466px",
+          height: "136px",
+          top: "1688px",
+          left: "548px",
+          backgroundColor: "transparent",
+          border: "none",
+          cursor: "pointer",
+          padding: 0,
+        }}
+      >
+        <img
+          src="/images/print.png"
+          alt="Print"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
+        />
+      </button>
     </div>
   );
 };
