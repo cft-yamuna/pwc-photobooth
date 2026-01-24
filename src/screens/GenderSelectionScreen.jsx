@@ -41,7 +41,7 @@ const GenderSelectionScreen = () => {
       }}
     >
       {/* Select Gender Section */}
-      <div style={{ marginTop: "250px" }}>
+      <div style={{ marginTop: "350px" }}>
         <h2
           style={{
             fontFamily: "Georgia, 'Times New Roman', serif",
@@ -49,6 +49,7 @@ const GenderSelectionScreen = () => {
             fontWeight: "700",
             color: "#000000",
             margin: "0 0 20px 0",
+            textAlign: "left",
           }}
         >
           Select Gender
@@ -57,7 +58,7 @@ const GenderSelectionScreen = () => {
         <div
           style={{
             display: "flex",
-            gap: "20px",
+            gap: "30px",
             justifyContent: "flex-start",
           }}
         >
@@ -75,7 +76,7 @@ const GenderSelectionScreen = () => {
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <img
-              src="/images/male_image.png"
+              src="/images/male.png"
               alt="Male"
               style={{
                 width: "300px",
@@ -99,7 +100,7 @@ const GenderSelectionScreen = () => {
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <img
-              src="/images/female_image.png"
+              src="/images/female.png"
               alt="Female"
               style={{
                 width: "300px",
