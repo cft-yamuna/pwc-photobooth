@@ -370,8 +370,8 @@ const OutputScreen = () => {
       <button
         onClick={handleStartOver}
         style={{
-          width: "548px",
-          height: "136px",
+          width: "603px",
+          height: "90px",
           padding: "0",
           backgroundColor: "transparent",
           border: "none",

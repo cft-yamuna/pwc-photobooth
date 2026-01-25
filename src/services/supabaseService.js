@@ -304,6 +304,7 @@ class SupabaseService {
           full_name: fullName,
           email: email,
           tag: tag,
+          is_attended: true,
         })
         .select()
         .single();

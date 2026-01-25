@@ -221,7 +221,6 @@ const FaceCaptureScreen = () => {
               }
             `}
           </style>
-          Processing...
         </div>
       )}
     </div>

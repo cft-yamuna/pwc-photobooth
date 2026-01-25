@@ -361,12 +361,13 @@ p,
   gap: var(--spacing-xl);
   width: 100%;
   max-width: 800px;
+  margin-top: 260px;
   margin: 0 auto;
 }
 
 .output-image {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-2xl);
   border: 3px solid var(--glass-border);
