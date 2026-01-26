@@ -90,13 +90,13 @@ const OutputScreen = () => {
       ctx.font = "bold 48px 'ITC Charter', Georgia, serif";
       ctx.fillStyle = "#000000";
       ctx.textAlign = "left";
-      ctx.fillText(userName, frameImg.width * 0.07, frameImg.height * 0.92);
+      ctx.fillText(userName, frameImg.width * 0.07, frameImg.height * 0.90);
 
-      // Draw category (bottom right)
-      ctx.font = "400 48px 'ITC Charter', Georgia, serif";
+      // Draw category (left aligned, below name)
+      ctx.font = "400 40px 'ITC Charter', Georgia, serif";
       ctx.fillStyle = "#000000";
-      ctx.textAlign = "right";
-      ctx.fillText(userCategory, frameImg.width * 0.93, frameImg.height * 0.92);
+      ctx.textAlign = "left";
+      ctx.fillText(userCategory, frameImg.width * 0.07, frameImg.height * 0.94);
 
       // Convert canvas to blob
       const blob = await new Promise((resolve) => {
@@ -280,7 +280,7 @@ const OutputScreen = () => {
             <div
               style={{
                 position: "absolute",
-                bottom: "6%",
+                bottom: "8%",
                 left: "7%",
                 fontFamily: "'ITC Charter', serif",
                 fontSize: "24px",
@@ -291,14 +291,14 @@ const OutputScreen = () => {
               {userName}
             </div>
 
-            {/* Category - bottom right */}
+            {/* Category - left aligned, below name */}
             <div
               style={{
                 position: "absolute",
-                bottom: "6%",
-                right: "7%",
+                bottom: "4%",
+                left: "7%",
                 fontFamily: "'ITC Charter', serif",
-                fontSize: "24px",
+                fontSize: "20px",
                 fontWeight: "400",
                 color: "#000000",
               }}

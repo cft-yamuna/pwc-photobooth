@@ -192,7 +192,7 @@ const FaceCaptureScreen = () => {
             border: "none",
             cursor: "pointer",
             padding: 0,
-            width: "400px",
+            width: "600px",
             height: "120px",
           }}
         />
