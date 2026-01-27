@@ -55,7 +55,7 @@ const OutputScreen = () => {
 
       // Calculate output image position (matching the gray area in frame)
       // These values are percentages converted to pixels based on frame dimensions
-      const outputX = frameImg.width * 0.078;
+      const outputX = frameImg.width * 0.06;
       const outputY = frameImg.height * 0.265 + 50; // 50px down
       const outputWidth = frameImg.width * 0.844;
       const outputHeight = frameImg.height * 0.58 - 50; // Reduce height to compensate
@@ -74,9 +74,9 @@ const OutputScreen = () => {
         sourceHeight = outputImg.width / targetAspectRatio;
         sourceY = 0; // Start from top, crop bottom
       } else {
-        // Source is wider - crop from sides (center crop)
+        // Source is wider - crop from right (left align)
         sourceWidth = outputImg.height * targetAspectRatio;
-        sourceX = (outputImg.width - sourceWidth) / 2;
+        sourceX = 0; // Start from left
       }
 
       // Draw output image with cropping
@@ -87,16 +87,16 @@ const OutputScreen = () => {
       );
 
       // Draw user name (bottom left)
-      ctx.font = "bold 48px 'ITC Charter', Georgia, serif";
+      ctx.font = "bold 80px 'ITC Charter', Georgia, serif";
       ctx.fillStyle = "#000000";
       ctx.textAlign = "left";
-      ctx.fillText(userName, frameImg.width * 0.07, frameImg.height * 0.90);
+      ctx.fillText(userName, frameImg.width * 0.06, frameImg.height * 0.90);
 
       // Draw category (left aligned, below name)
-      ctx.font = "400 40px 'ITC Charter', Georgia, serif";
+      ctx.font = "400 68px 'ITC Charter', Georgia, serif";
       ctx.fillStyle = "#000000";
       ctx.textAlign = "left";
-      ctx.fillText(userCategory, frameImg.width * 0.07, frameImg.height * 0.94);
+      ctx.fillText(userCategory, frameImg.width * 0.06, frameImg.height * 0.94);
 
       // Convert canvas to blob
       const blob = await new Promise((resolve) => {
@@ -267,11 +267,11 @@ const OutputScreen = () => {
                 style={{
                   position: "absolute",
                   top: "calc(26.5% + 50px)",
-                  left: "7.8%",
+                  left: "6%",
                   width: "84.4%",
                   height: "calc(58% - 50px)",
                   objectFit: "cover",
-                  objectPosition: "top center",
+                  objectPosition: "top left",
                 }}
               />
             )}
@@ -281,9 +281,9 @@ const OutputScreen = () => {
               style={{
                 position: "absolute",
                 bottom: "8%",
-                left: "7%",
+                left: "6%",
                 fontFamily: "'ITC Charter', serif",
-                fontSize: "24px",
+                fontSize: "40px",
                 fontWeight: "700",
                 color: "#000000",
               }}
@@ -296,9 +296,9 @@ const OutputScreen = () => {
               style={{
                 position: "absolute",
                 bottom: "4%",
-                left: "7%",
+                left: "6%",
                 fontFamily: "'ITC Charter', serif",
-                fontSize: "20px",
+                fontSize: "34px",
                 fontWeight: "400",
                 color: "#000000",
               }}
