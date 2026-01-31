@@ -30,7 +30,7 @@ const GenderSelectionScreen = () => {
       style={{
         width: "100%",
         height: "100vh",
-        backgroundImage: "url(/images/welcome_screen_bg.png)",
+        backgroundImage: "url(/images/gender-screen-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: "#FDEEE4",
@@ -41,25 +41,15 @@ const GenderSelectionScreen = () => {
       }}
     >
       {/* Select Gender Section */}
-      <div style={{ marginTop: "350px" }}>
-        <h2
-          style={{
-            fontFamily: "'ITC Charter', serif",
-            fontSize: "36px",
-            fontWeight: "700",
-            color: "#000000",
-            margin: "0 0 20px 0",
-            textAlign: "left",
-          }}
-        >
-          Select Gender
-        </h2>
+      <div style={{ marginTop: "360px" }}>
+        
 
         <div
           style={{
             display: "flex",
             gap: "30px",
-            justifyContent: "flex-start",
+            marginTop: "140px",
+            justifyContent: "center",
           }}
         >
           {/* Male Option */}
@@ -79,22 +69,12 @@ const GenderSelectionScreen = () => {
               src="/images/male.png"
               alt="Male"
               style={{
-                width: "300px",
-                height: "300px",
+                width: "420px",
+                height: "420px",
                 objectFit: "cover",
               }}
             />
-            <p
-              style={{
-                fontFamily: "'ITC Charter', serif",
-                fontSize: "28px",
-                color: "#000000",
-                marginTop: "10px",
-                margin: "10px 0 0 0",
-              }}
-            >
-              Male
-            </p>
+            
           </div>
 
           {/* Female Option */}
@@ -114,22 +94,12 @@ const GenderSelectionScreen = () => {
               src="/images/female.png"
               alt="Female"
               style={{
-                width: "300px",
-                height: "300px",
+                width: "420px",
+                height: "420px",
                 objectFit: "cover",
               }}
             />
-            <p
-              style={{
-                fontFamily: "'ITC Charter', serif",
-                fontSize: "28px",
-                color: "#000000",
-                marginTop: "10px",
-                margin: "10px 0 0 0",
-              }}
-            >
-              Female
-            </p>
+            
           </div>
         </div>
       </div>

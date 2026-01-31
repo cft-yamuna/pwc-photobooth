@@ -7,6 +7,9 @@ export const appConfig = {
     faceswapUrl: import.meta.env.VITE_RUNPOD_FACESWAP_URL || "",
     apiKey: import.meta.env.VITE_RUNPOD_API_KEY || "",
   },
+  gemini: {
+    apiKey: import.meta.env.VITE_GEMINI_API_KEY || "",
+  },
   buckets: {
     images: "phonepe_images",
     characters: "pwc_character_images",

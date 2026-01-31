@@ -54,11 +54,11 @@ const OutputScreen = () => {
       ctx.drawImage(frameImg, 0, 0);
 
       // Calculate output image position (matching the gray area in frame)
-      // These values are percentages converted to pixels based on frame dimensions
-      const outputX = frameImg.width * 0.06;
+      // 105px margin on left, image extends to 105px from right edge
+      const outputX = 105;
       const outputY = frameImg.height * 0.265 + 50; // 50px down
-      const outputWidth = frameImg.width * 0.844;
-      const outputHeight = frameImg.height * 0.58 - 50; // Reduce height to compensate
+      const outputWidth = frameImg.width - 210 - 100; // 105px margin on each side, reduced by 100px
+      const outputHeight = outputWidth; // 1:1 aspect ratio (square)
 
       // Calculate aspect ratio to crop from bottom instead of squeezing
       const targetAspectRatio = outputWidth / outputHeight;
@@ -86,17 +86,44 @@ const OutputScreen = () => {
         outputX, outputY, outputWidth, outputHeight
       );
 
-      // Draw user name (bottom left)
-      ctx.font = "bold 80px 'ITC Charter', Georgia, serif";
+      // Helper function to wrap text at word boundaries
+      const wrapText = (text, maxChars) => {
+        if (text.length <= maxChars) return [text];
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+
+        for (const word of words) {
+          if ((currentLine + ' ' + word).trim().length <= maxChars) {
+            currentLine = (currentLine + ' ' + word).trim();
+          } else {
+            if (currentLine) lines.push(currentLine);
+            currentLine = word;
+          }
+        }
+        if (currentLine) lines.push(currentLine);
+        return lines;
+      };
+
+      // Draw user name (bottom left) with wrapping for names > 25 chars
+      ctx.font = "bold 72px 'ITC Charter', Georgia, serif";
       ctx.fillStyle = "#000000";
       ctx.textAlign = "left";
-      ctx.fillText(userName, frameImg.width * 0.06, frameImg.height * 0.90);
+
+      const nameLines = wrapText(userName, 20).slice(0, 2); // Max 20 chars per line, max 2 lines
+      let nameY = outputY + outputHeight + 100; // Position 60px below the image
+      const nameLineHeight = 80; // Space between lines (adjusted for 80px font)
+      for (const line of nameLines) {
+        ctx.fillText(line, 105, nameY);
+        nameY += nameLineHeight;
+      }
 
       // Draw category (left aligned, below name)
-      ctx.font = "400 68px 'ITC Charter', Georgia, serif";
+      ctx.font = "400 62px 'ITC Charter', Georgia, serif";
       ctx.fillStyle = "#000000";
       ctx.textAlign = "left";
-      ctx.fillText(userCategory, frameImg.width * 0.06, frameImg.height * 0.94);
+      const categoryY = nameY + 10; // Small gap below last name line
+      ctx.fillText(userCategory, 105, categoryY);
 
       // Convert canvas to blob
       const blob = await new Promise((resolve) => {
@@ -150,8 +177,21 @@ const OutputScreen = () => {
         <head>
           <title>Print Photo</title>
           <style>
-            body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: white; }
-            img { max-width: 100%; max-height: 100vh; }
+            @page { 
+              margin: 0; 
+              size: 4in 6in;
+            }
+            body { 
+              margin: 0; 
+              padding: 0;
+              width: 100%; 
+              height: 100%;
+            }
+            img { 
+              width: 100%; 
+              height: 100%; 
+              object-fit: fill;
+            }
           </style>
         </head>
         <body>
@@ -172,7 +212,7 @@ const OutputScreen = () => {
       style={{
         width: "100%",
         height: "100vh",
-        backgroundImage: "url(/images/welcome_screen_bg.png)",
+        backgroundImage: "url(/images/output-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: "#FDEEE4",
@@ -193,8 +233,9 @@ const OutputScreen = () => {
         style={{
           position: "relative",
           width: "100%",
-          maxWidth: "600px",
-          marginBottom: "30px",
+          marginTop: "150px",
+          maxWidth: "700px",
+          marginBottom: "0px",
         }}
       >
         {isGenerating ? (
@@ -204,7 +245,7 @@ const OutputScreen = () => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              padding: "100px 20px",
+              padding: "10px 10px",
             }}
           >
             <div
@@ -229,7 +270,7 @@ const OutputScreen = () => {
               style={{
                 marginTop: "20px",
                 fontFamily: "'ITC Charter', serif",
-                fontSize: "20px",
+                fontSize: "40px",
                 color: "#333",
               }}
             >
@@ -309,88 +350,94 @@ const OutputScreen = () => {
         )}
       </div>
 
-      {/* Action Buttons */}
+      {/* All Buttons Section - Fixed at Bottom */}
       <div
         style={{
+          position: "fixed",
+          bottom: "40px",
+          left: "50px",
+          right: "50px",
           display: "flex",
+          flexDirection: "column",
           gap: "20px",
-          width: "100%",
-          maxWidth: "600px",
-          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        {/* Retake Button */}
-        <button
-          onClick={handleRetake}
-          disabled={isGenerating}
+        {/* Retake and Print Buttons Row */}
+        <div
           style={{
-            flex: 1,
-            padding: "20px",
-            fontSize: "24px",
-            fontWeight: "600",
-            fontFamily: "'ITC Charter', serif",
-            backgroundColor: "#FFFFFF",
-            color: "#000000",
-            border: "2px solid #000000",
-            borderRadius: "0",
-            cursor: isGenerating ? "not-allowed" : "pointer",
-            opacity: isGenerating ? 0.5 : 1,
-            transition: "all 0.3s ease",
-            textTransform: "uppercase",
-          }}
-        >
-          RETAKE
-        </button>
-
-        {/* Print Button */}
-        <button
-          onClick={handlePrint}
-          disabled={isGenerating}
-          style={{
-            flex: 1,
-            padding: "20px",
-            fontSize: "24px",
-            fontWeight: "600",
-            fontFamily: "'ITC Charter', serif",
-            backgroundColor: "#FD5108",
-            color: "white",
-            border: "none",
-            borderRadius: "0",
-            cursor: isGenerating ? "not-allowed" : "pointer",
-            opacity: isGenerating ? 0.5 : 1,
-            transition: "all 0.3s ease",
-            textTransform: "uppercase",
-          }}
-        >
-          PRINT
-        </button>
-      </div>
-
-      {/* Start Over Button */}
-      <button
-        onClick={handleStartOver}
-        style={{
-          width: "603px",
-          height: "90px",
-          padding: "0",
-          backgroundColor: "transparent",
-          border: "none",
-          borderRadius: "0",
-          cursor: "pointer",
-          transition: "all 0.3s ease",
-          marginTop: "20px",
-        }}
-      >
-        <img
-          src="/images/restart.png"
-          alt="Start Over"
-          style={{
+            display: "flex",
+            gap: "20px",
             width: "100%",
-            height: "100%",
-            objectFit: "contain",
           }}
-        />
-      </button>
+        >
+          <button
+            onClick={handleRetake}
+            disabled={isGenerating}
+            style={{
+              flex: 1,
+              height: "136px",
+              fontSize: "72px",
+              fontWeight: "600",
+              fontFamily: "'ITC Charter', serif",
+              backgroundColor: "transparent",
+              color: "#FD5108",
+              border: "2px solid #FD5108",
+              borderRadius: "0",
+              cursor: isGenerating ? "not-allowed" : "pointer",
+              opacity: isGenerating ? 0.5 : 1,
+              transition: "all 0.3s ease",
+              textTransform: "uppercase",
+            }}
+          >
+            RETAKE
+          </button>
+
+          <button
+            onClick={handlePrint}
+            disabled={isGenerating}
+            style={{
+              flex: 1,
+              height: "136px",
+              fontSize: "72px",
+              fontWeight: "600",
+              fontFamily: "'ITC Charter', serif",
+              backgroundColor: "#FD5108",
+              color: "white",
+              border: "none",
+              borderRadius: "0",
+              cursor: isGenerating ? "not-allowed" : "pointer",
+              opacity: isGenerating ? 0.5 : 1,
+              transition: "all 0.3s ease",
+              textTransform: "uppercase",
+            }}
+          >
+            PRINT
+          </button>
+        </div>
+
+        <button
+            onClick={handleStartOver}
+            disabled={isGenerating}
+            style={{
+              width: "100%",
+              height: "136px",
+              fontSize: "72px",
+              fontWeight: "600",
+              fontFamily: "'ITC Charter', serif",
+              backgroundColor: "#FD5108",
+              color: "white",
+              border: "none",
+              borderRadius: "0",
+              cursor: isGenerating ? "not-allowed" : "pointer",
+              opacity: isGenerating ? 0.5 : 1,
+              transition: "all 0.3s ease",
+              textTransform: "uppercase",
+            }}
+          >
+            HOME
+          </button>
+      </div>
     </div>
   );
 };

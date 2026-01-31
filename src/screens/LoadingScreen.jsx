@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import SupabaseService from "../services/supabaseService";
-import FaceSwapService from "../services/faceswapService";
+import GeminiService from "../services/geminiService";
 
 const LoadingScreen = () => {
   const navigate = useNavigate();
-  const { uniqueId, userImageUrl, characterImageUrl, setOutputImageUrl } =
-    useAppContext();
+  const {
+    uniqueId,
+    userImageUrl,
+    characterImageUrl,
+    setOutputImageUrl,
+    gender,
+    selectedCharacter,
+  } = useAppContext();
 
   const [statusMessage, setStatusMessage] = useState("Initializing...");
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    if (!uniqueId || !userImageUrl || !characterImageUrl) {
+    if (!uniqueId || !userImageUrl) {
       navigate("/");
       return;
     }
@@ -24,29 +29,17 @@ const LoadingScreen = () => {
   const processImage = async () => {
     try {
       setStatusMessage("Preparing your transformation...");
-      const supabaseService = new SupabaseService();
 
-      setStatusMessage("Sending to AI processor...");
-      const faceswapService = new FaceSwapService();
+      setStatusMessage("Generating with Gemini AI...");
+      const geminiService = new GeminiService();
 
-      const success = await faceswapService.sendFaceSwapRequest({
-        sourceImageUrl: userImageUrl,
-        targetImageUrl: characterImageUrl,
+      const outputUrl = await geminiService.generateImage({
+        userImageUrl,
         uniqueId: uniqueId,
       });
 
-      if (!success) {
-        throw new Error("Failed to start face swap processing");
-      }
-
-      setStatusMessage(
-        "Transforming your image...\nThis may take a few minutes. Please wait."
-      );
-
-      const outputUrl = await supabaseService.pollForOutput(uniqueId);
-
       if (!outputUrl) {
-        throw new Error("Processing timeout or failed");
+        throw new Error("Failed to generate image");
       }
 
       setOutputImageUrl(outputUrl);
@@ -71,7 +64,7 @@ const LoadingScreen = () => {
       style={{
         width: "100%",
         height: "100vh",
-        backgroundImage: "url(/images/welcome_screen_bg.png)",
+        backgroundImage: "url(/images/plain-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: "#FDEEE4",

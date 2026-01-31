@@ -114,7 +114,7 @@ const FaceCaptureScreen = () => {
       style={{
         width: "100%",
         height: "100vh",
-        backgroundImage: "url('/images/capture-screen.png')",
+        backgroundImage: "url('/images/capture-screen-bg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: "#FDEEE4",
@@ -179,23 +179,36 @@ const FaceCaptureScreen = () => {
         )}
       </div>
 
-      {/* Capture Button - Transparent clickable area over background button */}
+      {/* Capture Button */}
       {!isCapturing && !isProcessing && (
         <button
           onClick={startCapture}
           style={{
             position: "absolute",
             bottom: "50px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            backgroundColor: "transparent",
+            left: "50px",
+            right: "50px",
+            backgroundColor: "#FD5108",
             border: "none",
             cursor: "pointer",
-            padding: 0,
-            width: "600px",
-            height: "120px",
+            padding: "30px",
+            fontSize: "72px",
+            fontWeight: "600",
+            fontFamily: "'ITC Charter', serif",
+            color: "white",
+            textTransform: "uppercase",
+            letterSpacing: "4px",
+            transition: "all 0.3s ease",
           }}
-        />
+          onMouseEnter={(e) => {
+            e.target.style.transform = "scale(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = "scale(1)";
+          }}
+        >
+          CAPTURE
+        </button>
       )}
 
       {/* Processing Message */}

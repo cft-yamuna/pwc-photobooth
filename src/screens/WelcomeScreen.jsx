@@ -65,7 +65,7 @@ const WelcomeScreen = () => {
   const handleContinue = () => {
     if (selectedUser) {
       setRegisteredUser(selectedUser);
-      navigate("/gender-selection");
+      navigate("/face-capture");
     }
   };
 
@@ -88,22 +88,12 @@ const WelcomeScreen = () => {
         flexDirection: "column",
       }}
     >
-     
-     
+
+
 
       {/* Enter Name Section */}
-      <div style={{ marginTop: "400px" }}>
-        <label
-          style={{
-            fontFamily: "'ITC Charter', serif",
-            fontSize: "28px",
-            color: "#000000",
-            display: "block",
-            marginBottom: "16px",
-          }}
-        >
-          Enter your name
-        </label>
+      <div style={{ marginTop: "500px" }}>
+
 
         <div style={{ position: "relative", maxWidth: "100%" }}>
           <input
@@ -115,8 +105,8 @@ const WelcomeScreen = () => {
             disabled={isLoading}
             style={{
               width: "100%",
-              padding: "20px 24px",
-              fontSize: "24px",
+              padding: "28px 24px",
+              fontSize: "40px",
               fontFamily: "'ITC Charter', serif",
               borderRadius: "0",
               border: "none",
@@ -149,7 +139,7 @@ const WelcomeScreen = () => {
                   onClick={() => handleSelectUser(user)}
                   style={{
                     padding: "16px 24px",
-                    fontSize: "22px",
+                    fontSize: "32px",
                     fontFamily: "'ITC Charter', serif",
                     color: "#000000",
                     cursor: "pointer",
@@ -192,7 +182,7 @@ const WelcomeScreen = () => {
               <p
                 style={{
                   color: "#dc2626",
-                  fontSize: "22px",
+                  fontSize: "42px",
                   fontFamily: "'ITC Charter', serif",
                   marginBottom: "16px",
                 }}
@@ -203,7 +193,7 @@ const WelcomeScreen = () => {
                 onClick={handleRegister}
                 style={{
                   padding: "24px 60px",
-                  fontSize: "32px",
+                  fontSize: "72px",
                   fontWeight: "600",
                   fontFamily: "'ITC Charter', serif",
                   backgroundColor: "#FD5108",
