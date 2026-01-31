@@ -5,11 +5,10 @@ import SupabaseService from "../services/supabaseService";
 
 const NewUserScreen = () => {
   const navigate = useNavigate();
-  const { setRegisteredUser, setGender } = useAppContext();
+  const { setRegisteredUser } = useAppContext();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [gender, setGenderValue] = useState("");
   const [category, setCategory] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -29,7 +28,7 @@ const NewUserScreen = () => {
   const handleContinue = async () => {
     setError("");
 
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !gender || !category) {
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !category) {
       setError("Please fill in all fields");
       return;
     }
@@ -53,7 +52,6 @@ const NewUserScreen = () => {
 
     if (result) {
       setRegisteredUser(result);
-      setGender(gender.toLowerCase());
       navigate("/face-capture");
     } else {
       setError("Failed to register. Please try again.");
@@ -146,26 +144,6 @@ const NewUserScreen = () => {
               color: email ? "#000000" : placeholderColor,
             }}
           />
-
-          {/* Gender */}
-          <select
-            value={gender}
-            onChange={(e) => setGenderValue(e.target.value)}
-            style={{
-              ...inputStyle,
-              paddingRight: "60px", // Extra padding for arrow
-              cursor: "pointer",
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='9' stroke='%23000000' stroke-width='1.5'/%3E%3Cpath d='M8.5 10.5L12 14L15.5 10.5' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "right 24px center",
-              backgroundSize: "32px",
-              color: gender ? "#000000" : placeholderColor,
-            }}
-          >
-            <option value="" disabled>Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
 
           {/* Category of attendee */}
           <select

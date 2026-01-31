@@ -175,20 +175,10 @@ const WelcomeScreen = () => {
           {showNotFound && (
             <div
               style={{
-                marginTop: "20px",
+                marginTop: "60px",
                 textAlign: "center",
               }}
             >
-              <p
-                style={{
-                  color: "#dc2626",
-                  fontSize: "42px",
-                  fontFamily: "'ITC Charter', serif",
-                  marginBottom: "16px",
-                }}
-              >
-                Your name is not found. Please register.
-              </p>
               <button
                 onClick={handleRegister}
                 style={{
